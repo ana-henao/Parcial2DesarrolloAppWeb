@@ -11,6 +11,7 @@ export default class UserApi{
             throw new Error('Hubo error trayendo los usuarios');
         }
         const data = (await resp.json());
+
         data.forEach(element => {
             list.push(new User(element.id, element.firstName, element.lastName, element.phone, element.email, element.photo, element.jobTitle));
         });

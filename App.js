@@ -4,12 +4,6 @@ export default class App {
     /* Modificar el DOM / escuchar eventos*/
     constructor() {
          this.allusers = []
-
-    //   item = document.getElementById('pet-id');
-    //   item.addEventListener("change",this.#onIdChange);
-  
-    //   item = document.getElementById("send-pet");
-    //   item.addEventListener("submit", this.#onSendPet);
     }
 
     async GetUsers() {
@@ -44,7 +38,19 @@ export default class App {
 
             boton.addEventListener("click", this.#onEdit);
 
-            Edit.appendChild(boton)
+            var borrar = document.createElement("button");
+            borrar.textContent = "Borrar";
+            borrar.type = "submit";
+            borrar.formMethod ="post";
+            borrar.id = usuario.id;
+
+            borrar.addEventListener("click", this.#onDelete);
+
+            var div = document.createElement("div");
+            div.appendChild(boton)
+            div.appendChild(borrar)
+
+            Edit.appendChild(div)
           
             fila.appendChild(Edit);
             fila.appendChild(FirstName);
@@ -59,19 +65,6 @@ export default class App {
 
         tbody.append(...filas);
     }
-
-    // #onIdChange = (ev)=>{
-    //   const item = document.getElementById('pet-id');
-    //   const inputValue = ev.currentTarget.value;
-    //   console.log("cambió el valor",inputValue);
-    //   if(inputValue < 0){
-    //       item.className = 'error';
-    //   }else if(inputValue == 0){
-    //       item.className = 'neutral';
-    //   }else{
-    //       item.className = 'ok';
-    //   }    
-    // }
   
     #onEdit = async (ev) => {
       ev.preventDefault();
@@ -90,20 +83,15 @@ export default class App {
 
       window.location.href = `CrearEditarUsuario.html?id=${user.id}`;
     };
+
+    #onDelete = async (ev) => {
+        ev.preventDefault();
+        const id = ev.currentTarget.id;
+        console.log(this.allusers);
+        console.log(id);
+        const user = this.allusers.find(u => u.id === Number(id));
+
+        UserApi.deleteOne(user);
+      };
   
-    // #onSendPet = async (ev) => {
-    //   ev.preventDefault();
-    //   const data = {};
-    //   data.id = document.querySelector('#pet-id2').value;
-    //   data.name = document.querySelector('#pet-name2').value;
-    //   data.tag = document.querySelector('#pet-type2').value;
-    //   const respData = await Pet.saveOne(data);
-    //   console.log(respData);
-    // }
-  
-    // #printResult = (data) => {
-    //   console.log(data);
-    //   const result = document.querySelector("#result")
-    //   result.textContent = data;
-    // };
   }

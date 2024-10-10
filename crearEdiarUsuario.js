@@ -15,9 +15,7 @@ export default class CrearEditarUsuario {
 
         const item = document.getElementById('send-user');
         item.addEventListener("submit",this.#onSubmit);
-  
-    //   item = document.getElementById("send-pet");
-    //   item.addEventListener("submit", this.#onSendPet);
+
     }
 
 

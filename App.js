@@ -88,7 +88,7 @@ export default class App {
       localStorage.setItem('jobTitle',user.jobTitle);
       localStorage.setItem('photo',user.photo);
 
-      window.location.href = "CrearEditarUsuario.html";
+      window.location.href = `CrearEditarUsuario.html?id=${user.id}`;
     };
   
     // #onSendPet = async (ev) => {

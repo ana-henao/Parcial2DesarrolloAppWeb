@@ -9,8 +9,12 @@ if(window.location.pathname === "/index.html"){
 }
 
 if(window.location.pathname === "/CrearEditarUsuario.html"){
+
+    console.log()
     const crearEditarUsuario = new CrearEditarUsuario();
-    crearEditarUsuario.setUser();
+
+    if(window.location.search.includes("id"))
+            crearEditarUsuario.setUser();
 }
 
 // import UserApi from "./UserApi.js";

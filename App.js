@@ -3,10 +3,8 @@ import UserApi from "./UserApi.js";
 export default class App {
     /* Modificar el DOM / escuchar eventos*/
     constructor() {
+         this.allusers = []
 
-    //   let item = document.getElementById("pet-form");
-    //   item.addEventListener("submit", this.#onSubmit);
-  
     //   item = document.getElementById('pet-id');
     //   item.addEventListener("change",this.#onIdChange);
   
@@ -19,9 +17,9 @@ export default class App {
 
         const tbody = tabla.querySelector('tbody');
 
-        const allusers = await UserApi.getAll();
+        this.allusers = await UserApi.getAll();
         
-        const filas = allusers.map(usuario => {
+        const filas = this.allusers.map(usuario => {
             const fila = document.createElement('tr');
             const FirstName = document.createElement('td');
             const LastName = document.createElement('td');
@@ -38,10 +36,15 @@ export default class App {
             JobTitle.textContent = usuario.jobTitle;
             Photo.textContent = usuario.photo;
 
-            const link = document.createElement('a');
-            link.textContent = "Editar";
-            link.href = "CrearEditarUsuario.html";
-            Edit.appendChild(link)
+            var boton = document.createElement("button");
+            boton.textContent = "Editar";
+            boton.type = "submit";
+            boton.formMethod ="post";
+            boton.id = usuario.id;
+
+            boton.addEventListener("click", this.#onEdit);
+
+            Edit.appendChild(boton)
           
             fila.appendChild(Edit);
             fila.appendChild(FirstName);
@@ -55,7 +58,7 @@ export default class App {
           });
 
         tbody.append(...filas);
-      }
+    }
 
     // #onIdChange = (ev)=>{
     //   const item = document.getElementById('pet-id');
@@ -70,27 +73,23 @@ export default class App {
     //   }    
     // }
   
-    // #onSubmit = async (ev) => {
-    //   ev.preventDefault();
-    //   const item = document.getElementById('pet-id');
-    //   const inputValue = item.value;
-    //   let data;
-    //   if(inputValue < 0){
-    //       data = 'No se pueden traer mascotas con id negativo';
-    //   }else if(inputValue == 0){
-    //       // console.log("Vamos a consultar las mascotas");
-    //       data = JSON.stringify(await Pet.getAll());
-    //   }else{
-    //       data = await Pet.getOne(inputValue);
-    //       console.log(data);
-    //       document.querySelector('#pet-id2').value = data.id;
-    //       document.querySelector('#pet-name2').value = data.name;
-    //       document.querySelector('#pet-type2').value = data.type;
-  
-    //       data = JSON.stringify(data);
-    //   }
-    //   this.#printResult(data);
-    // };
+    #onEdit = async (ev) => {
+      ev.preventDefault();
+      const id = ev.currentTarget.id;
+      console.log(this.allusers);
+      console.log(id);
+      const user = this.allusers.find(u => u.id === Number(id));
+
+      localStorage.setItem('id',user.id);
+      localStorage.setItem('firstName',user.firstName);
+      localStorage.setItem('lastName',user.lastName);
+      localStorage.setItem('phone',user.phone);
+      localStorage.setItem('email',user.email);
+      localStorage.setItem('jobTitle',user.jobTitle);
+      localStorage.setItem('photo',user.photo);
+
+      window.location.href = "CrearEditarUsuario.html";
+    };
   
     // #onSendPet = async (ev) => {
     //   ev.preventDefault();

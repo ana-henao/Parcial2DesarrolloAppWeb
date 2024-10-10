@@ -1,5 +1,5 @@
 import UserApi from "./UserApi.js";
-import User from "./UserApi.js";
+import User from "./User.js";
 
 export default class CrearEditarUsuario {
     /* Modificar el DOM / escuchar eventos*/
@@ -48,7 +48,7 @@ export default class CrearEditarUsuario {
 
         const user = new User(id,firstName,lastName,phone,email,this.photo, jobTitle)
 
-        await UserApi.saveOne(user);  
+        await UserApi.updateOne(user);  
       };
 
 }

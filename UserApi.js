@@ -1,15 +1,4 @@
-class User{
-    constructor(id, firstName, lastName, phone, email, photo, jobTitle){
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.email = email;
-        this.photo = photo;
-        this.jobTitle = jobTitle;
-    }
-}
-
+import User from "./User.js";
 
 export default class UserApi{
 
@@ -52,4 +41,32 @@ export default class UserApi{
         return await resp.json();
     }
 
+    static async updateOne(data){
+        console.log(data);
+        const options = {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }
+        console.log(options.body);
+        const resp = await fetch(`http://ec2-3-138-183-128.us-east-2.compute.amazonaws.com:4010/users/${data.id}`, options);
+        console.log(resp);
+        return await resp.json();
+    }
+
+    static async deleteOne(data){
+        console.log(data)
+        const options = {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }
+        const resp = await fetch(`http://ec2-3-138-183-128.us-east-2.compute.amazonaws.com:4010/users/${data.id}`, options);
+        console.log(resp);
+        return await resp.json();
+    }
 }
